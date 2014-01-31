@@ -18,21 +18,16 @@ class CLientHandler(SocketServer.BaseRequestHandler):
 		print 'Client connected @' + self.ip + ':' + str(self.port)
 		connIn = 0
 		while True:
-			data = self.request.recv(1014)
-			#Already tried with BaseRequestHandler, SocketServer, but this works..
-			'''while connIn in select.select(clients,[],[],0)[0]:
-				print "HELLO FROM CONNIN"'''
-			# Motta data fra klienten
-			# Setter maks datastørrelse til 1kb
+			datajson = self.request.recv(1024)
+			data = json.loads(datajson)
+			#Making new json object
+			time = datetime.now().strftime("%Y-%m-%d %H:%M")
+			outData = {'time':time, 'nick':data['nick'],'message':data['message']}
+			outData = json.dumps(outData)
 			if not data: continue
-			# Last inn JSON-objektet
-			data = json.loads(data)
-
-			# Si ifra at klienten har sendt en melding
-			print datetime.now().strftime("%Y-%m-%d %H:%M") + ' ' + data['nick'] + ': ' + data['message']
+			print datetime.now().strftime("%Y-%m-%d %H:%M") + ' ' +data['nick'] + ': ' + data['message']
 			for i in clients:
-				i.request.sendall(data['message'])
-				#print "Sent message,", data['message'], "to:", data['nick']
+				i.request.sendall(outData)
 
 class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 	pass
