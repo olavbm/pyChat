@@ -19,12 +19,13 @@ class CLientHandler(SocketServer.BaseRequestHandler):
 		connIn = 0
 		while True:
 			datajson = self.request.recv(1024)
+			if not datajson: continue
 			data = json.loads(datajson)
 			#Making new json object
 			time = datetime.now().strftime("%Y-%m-%d %H:%M")
 			outData = {'time':time, 'nick':data['nick'],'message':data['message']}
 			outData = json.dumps(outData)
-			if not data: continue
+			if not outData: continue
 			print datetime.now().strftime("%Y-%m-%d %H:%M") + ' ' +data['nick'] + ': ' + data['message']
 			for i in clients:
 				i.request.sendall(outData)
