@@ -8,10 +8,7 @@ class Client(object):
 	def start(self, host, port):
 		def isData():
 			return select.select([sys.stdin], [], [], 0) ==	([sys.stdin], [], [])
-		# Start tilkoblingen
 		self.connection.connect((host, port))
-		#self.connection.listen(5)
-		# Be brukeren om å skrive inn brukernavn
 		nick = raw_input('name: ')
 		data = {'nick':nick, 'message':" just connected"}
 		data = json.dumps(data)
@@ -20,7 +17,7 @@ class Client(object):
 		while True:
 			while sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
 				line = sys.stdin.readline()
-				if len(line) < 1: continue
+			i	if len(line) < 1: continue
 				if line:
 					data = {'nick':nick, 'message':line[:len(line)-1]}
 					data = json.dumps(data)
@@ -28,9 +25,8 @@ class Client(object):
 					print "Sent", data,"successfully"
 					print connIn
 					print "SelfCon:", self.connection
-#			while connIn in select.select([self.connection.recv(1024)], [], [], 0):
 			while connIn in select.select([self.connection], [],[],0)[0]:
-				print "GOT FUCKINGSHERE!!!!!"
+				print "Got where I wanna be"
 				data = json.loads(connIn)
 				print "Data:",data
 			connIn += 1

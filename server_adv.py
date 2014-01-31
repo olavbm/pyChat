@@ -24,7 +24,7 @@ class CLientHandler(SocketServer.BaseRequestHandler):
 				print "HELLO FROM CONNIN"'''
 			# Motta data fra klienten
 			# Setter maks datastørrelse til 1kb
-			if not data: break
+			if not data: continue
 			# Last inn JSON-objektet
 			data = json.loads(data)
 
