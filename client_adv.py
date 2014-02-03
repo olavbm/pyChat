@@ -30,11 +30,6 @@ class Client(object):
 					if data:
 						dataJ = json.loads(data)
 						print dataJ['time'], " ", dataJ['nick'],":", dataJ['message']
-#			while connIn in select.select([0,self.connection], [],[],0)[0]:
-#				print "I wanna get here, but never recieve anything!"
-#				data = json.loads(connIn)
-#				print "Data:",data
-#			connIn += 1
 	def send(self, data):
 		self.connection.send(data)
 
